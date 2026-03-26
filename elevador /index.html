@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Elevator Machine</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<h1>★ ELEVADOR ★</h1>
+<p>AFD – Controle de Estados</p>
+
+<div class="layout">
+
+  <!-- ELEVADOR -->
+  <div class="machine">
+
+    <div id="shaft">
+      <div id="elevador">
+        <div id="porta-esq"></div>
+        <div id="porta-dir"></div>
+        <div id="gato">🐱</div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button onclick="chamar(0)">T</button>
+      <button onclick="chamar(1)">1</button>
+      <button onclick="chamar(2)">2</button>
+      <button onclick="chamar(3)">3</button>
+    </div>
+
+    <div id="status"></div>
+
+  </div>
+
+  <!-- LOG -->
+  <div class="panel">
+    <h3>LOG δ(q,Σ)</h3>
+    <div id="log"></div>
+  </div>
+
+  <!-- TABELA -->
+  <div class="panel">
+    <h3>TRANSIÇÕES</h3>
+    <table id="tabela"></table>
+  </div>
+
+</div>
+
+<script src="elevador.js"></script>
+</body>
+</html>
