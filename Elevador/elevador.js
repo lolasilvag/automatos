@@ -105,7 +105,6 @@ function mover(dest){
   movendo = true;
 
   fechar(()=>{
-
     let intervalo = setInterval(()=>{
 
       let ant = estado;
@@ -138,8 +137,8 @@ function mover(dest){
 /* ===== BOTÕES ===== */
 
 window.chamar = function(n){
-  push(n);      // PDA
-  processar();  // executa
+  push(n);
+  processar();
 }
 
 /* INIT */
