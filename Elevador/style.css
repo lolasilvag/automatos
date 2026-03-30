@@ -1,14 +1,14 @@
 body {
   background: #0a0a1a;
   color: white;
-  text-align: center;
   font-family: Arial;
+  text-align: center;
 }
 
 .layout {
   display: flex;
-  gap: 30px;
   justify-content: center;
+  gap: 30px;
 }
 
 /* ELEVADOR */
@@ -37,46 +37,29 @@ body {
   transition: bottom 1s;
 }
 
-/* PORTAS BONITAS */
+/* PORTAS */
 #porta-esq, #porta-dir {
   position: absolute;
   width: 50%;
   height: 100%;
-  top: 0;
-
-  background: linear-gradient(180deg, #111, #000);
+  background: linear-gradient(180deg,#111,#000);
   border: 1px solid #ff2d78;
-
-  box-shadow: inset 0 0 10px #ff2d78;
-  transition: transform 0.6s ease;
+  transition: transform 0.6s;
 }
 
-/* lado esquerdo */
 #porta-esq {
   left: 0;
-  border-right: 2px solid #ff2d78; /* linha do meio */
+  border-right: 2px solid #ff2d78;
 }
 
-/* lado direito */
 #porta-dir {
   right: 0;
-  border-left: 2px solid #ff2d78; /* linha do meio */
+  border-left: 2px solid #ff2d78;
 }
 
-/* animação abrir */
-.aberta #porta-esq {
-  transform: translateX(-100%);
-}
+.aberta #porta-esq { transform: translateX(-100%); }
+.aberta #porta-dir { transform: translateX(100%); }
 
-.aberta #porta-dir {
-  transform: translateX(100%);
-}
-
-#porta-esq, #porta-dir {
-  box-shadow:
-    inset 0 0 10px #ff2d78,
-    0 0 5px #ff2d78;
-}
 /* GATO */
 #gato {
   display: none;
@@ -86,41 +69,25 @@ body {
   font-size: 30px;
 }
 
-/* BOTÕES */
-button {
-  margin: 5px;
-  padding: 10px;
-  background: pink;
-  border: none;
-}
-
 /* LOG */
 #log {
   height: 200px;
   overflow: auto;
-  color: #39ff14;
   font-family: monospace;
+  color: #39ff14;
 }
 
-/* TABELA */
-table {
-  border-collapse: collapse;
+/* PILHA */
+#pilha {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  gap: 5px;
 }
 
-td, th {
+.item {
+  width: 50px;
   padding: 5px;
-  border-bottom: 1px solid #333;
-}
-
-.ativo {
-  background: #39ff14;
-  color: black;
-}
-
-.pulse {
-  animation: glow 0.5s;
-}
-
-@keyframes glow {
-  50% { box-shadow: 0 0 10px #39ff14; }
+  background: #ff2d78;
+  box-shadow: 0 0 10px #ff2d78;
 }
