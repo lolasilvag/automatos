@@ -105,6 +105,7 @@ function mover(dest){
   movendo = true;
 
   fechar(()=>{
+
     let intervalo = setInterval(()=>{
 
       let ant = estado;
