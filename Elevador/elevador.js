@@ -3,7 +3,6 @@ window.onload = function(){
 let estado = "0_ABERTO";
 let andar = 0;
 let movendo = false;
-
 let pilha = [];
 
 const elevador = document.getElementById("elevador");
@@ -14,66 +13,115 @@ const gato = document.getElementById("gato");
 
 const pos = [0,100,200,300];
 
-/* ===== PILHA ===== */
+let cy; 
 
+/*  GRAFO  */
+if (typeof cytoscape !== "undefined") {
+  cy = cytoscape({
+    container: document.getElementById('diagrama'),
+
+    style: [
+      { selector:'node', style:{'background-color':'#ff2d78','label':'data(id)','color':'white'} },
+      { selector:'edge', style:{'line-color':'#00f5ff','target-arrow-color':'#00f5ff','target-arrow-shape':'triangle'} },
+      { selector:'.ativo', style:{'background-color':'#39ff14'} },
+      { selector:'.transicao', style:{'line-color':'#ff2d78','width':4} }
+    ],
+
+    elements: [
+      {data:{id:'0_ABERTO'}},{data:{id:'0_FECHADO'}},
+      {data:{id:'1_FECHADO'}},{data:{id:'1_ABERTO'}},
+      {data:{id:'2_FECHADO'}},{data:{id:'2_ABERTO'}},
+      {data:{id:'3_FECHADO'}},{data:{id:'3_ABERTO'}},
+
+      {data:{id:'e1',source:'0_ABERTO',target:'0_FECHADO'}},
+      {data:{id:'e2',source:'0_FECHADO',target:'1_FECHADO'}},
+      {data:{id:'e3',source:'1_FECHADO',target:'1_ABERTO'}},
+      {data:{id:'e4',source:'1_ABERTO',target:'1_FECHADO'}},
+      {data:{id:'e5',source:'1_FECHADO',target:'2_FECHADO'}},
+      {data:{id:'e6',source:'2_FECHADO',target:'2_ABERTO'}},
+      {data:{id:'e7',source:'2_ABERTO',target:'2_FECHADO'}},
+      {data:{id:'e8',source:'2_FECHADO',target:'3_FECHADO'}},
+      {data:{id:'e9',source:'3_FECHADO',target:'3_ABERTO'}}
+    ],
+
+    layout: {
+      name: 'breadthfirst',
+      directed: true,
+      padding: 20,
+      spacingFactor: 1.8,
+      avoidOverlap: true,
+      nodeDimensionsIncludeLabels: true,
+      animate: false,
+      fit: true,
+      boundingBox: { x1: 0, y1: 0, x2: 900, y2: 500 }
+    }
+  });
+}
+
+/*  PILHA  */
 function atualizarPilha(){
-  pilhaUI.innerHTML = "";
+  pilhaUI.innerHTML="";
   pilha.forEach(v=>{
-    let d = document.createElement("div");
-    d.className = "item";
-    d.innerText = v;
+    let d=document.createElement("div");
+    d.className="item";
+    d.innerText=v;
     pilhaUI.appendChild(d);
   });
 }
 
-function push(v){
-  pilha.push(v);
-  atualizarPilha();
-}
+function push(v){ pilha.push(v); atualizarPilha(); }
+function pop(){ let v=pilha.pop(); atualizarPilha(); return v; }
 
-function pop(){
-  let v = pilha.pop();
-  atualizarPilha();
-  return v;
-}
-
-/* ===== LOG ===== */
-
+/*  LOG  */
 function logar(o,e,d){
-  let p = document.createElement("p");
-  p.innerText = `δ(${o}, ${e}) → ${d}`;
+
+  let p=document.createElement("p");
+  p.textContent=`δ(${o}, ${e}) → ${d}`;
   log.appendChild(p);
-  log.scrollTop = log.scrollHeight;
+  log.scrollTop=log.scrollHeight;
+
+  //  proteção
+  if(cy){
+    cy.nodes().removeClass("ativo");
+    cy.edges().removeClass("transicao");
+
+    let node=cy.getElementById(d);
+    if(node) node.addClass("ativo");
+
+    cy.edges().forEach(edge=>{
+      if(edge.source().id()===o && edge.target().id()===d){
+        edge.addClass("transicao");
+      }
+    });
+  }
 }
 
-/* ===== UI ===== */
-
+/*  UI  */
 function atualizar(){
-  elevador.style.bottom = pos[andar] + "px";
+  elevador.style.bottom = pos[andar]+"px";
   status.innerText = `Estado: ${estado}`;
 }
 
-/* ===== PORTA ===== */
-
+/*  PORTA  */
 function abrir(){
-  let ant = estado;
-  estado = `${andar}_ABERTO`;
+  let ant=estado;
+  estado=`${andar}_ABERTO`;
 
   elevador.classList.add("aberta");
-  gato.style.display = "block";
+  gato.style.display="block";
 
   logar(ant,"abrir",estado);
   atualizar();
 }
 
 function fechar(cb){
-  let ant = estado;
+  let ant=estado;
 
   setTimeout(()=>{
-    estado = `${andar}_FECHADO`;
+    estado=`${andar}_FECHADO`;
 
     elevador.classList.remove("aberta");
-    gato.style.display = "none";
+    gato.style.display="none";
 
     logar(ant,"fechar",estado);
     atualizar();
@@ -82,61 +130,51 @@ function fechar(cb){
   },800);
 }
 
-/* ===== PDA ===== */
-
+/*  PDA  */
 function processar(){
-
-  if(movendo) return;
-  if(pilha.length === 0) return;
-
-  let destino = pop();
-  mover(destino);
+  if(movendo || pilha.length===0) return;
+  mover(pop());
 }
 
-/* ===== MOVIMENTO ===== */
-
+/*  MOVIMENTO  */
 function mover(dest){
 
-  if(dest === andar){
-    processar();
-    return;
-  }
+  if(dest===andar){ processar(); return; }
 
-  movendo = true;
+  movendo=true;
 
   fechar(()=>{
 
-    let intervalo = setInterval(()=>{
+    let intervalo=setInterval(()=>{
 
-      let ant = estado;
+      let ant=estado;
 
-      if(andar === dest){
+      if(andar===dest){
         clearInterval(intervalo);
 
         setTimeout(()=>{
           abrir();
-          movendo = false;
-          processar(); // continua pilha
-        },500);
+          movendo=false;
+          processar();
+        },400);
 
         return;
       }
 
-      let dir = dest > andar ? "subir" : "descer";
+      let dir = dest>andar?"subir":"descer";
 
-      andar += dest > andar ? 1 : -1;
-      estado = `${andar}_FECHADO`;
+      andar += dest>andar?1:-1;
+      estado=`${andar}_FECHADO`;
 
       logar(ant,dir,estado);
       atualizar();
 
-    },700);
+    },600);
 
   });
 }
 
-/* ===== BOTÕES ===== */
-
+/*  BOTÕES  */
 window.chamar = function(n){
   push(n);
   processar();
@@ -145,4 +183,4 @@ window.chamar = function(n){
 /* INIT */
 abrir();
 
-}
+};

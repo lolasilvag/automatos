@@ -1,17 +1,36 @@
 body {
-  background: #0a0a1a;
+  background: #0a0a1a !important;
   color: white;
   font-family: Arial;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .layout {
-  display: flex;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto auto;
   gap: 30px;
+  justify-content: center;
+  width: min(100%, 1100px);
+  margin: 0 auto;
 }
 
-/* ELEVADOR */
+#diagrama {
+  grid-column: 1 / -1;
+  width: 100%;
+  min-height: 520px;
+  max-height: 680px;
+  border: 2px solid cyan;
+  box-shadow: 0 0 15px cyan;
+  background: #0a0a1a;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+/* elevador */
 .machine {
   border: 3px solid cyan;
   padding: 20px;
@@ -37,48 +56,47 @@ body {
   transition: bottom 1s;
 }
 
-/* PORTAS */
+/* portas */
 #porta-esq, #porta-dir {
   position: absolute;
   width: 50%;
   height: 100%;
-  background: linear-gradient(180deg,#111,#000);
+  background: linear-gradient(#111,#000);
   border: 1px solid #ff2d78;
-  transition: transform 0.6s;
+  transition: transform 0.5s;
 }
 
-#porta-esq {
-  left: 0;
-  border-right: 2px solid #ff2d78;
-}
-
-#porta-dir {
-  right: 0;
-  border-left: 2px solid #ff2d78;
-}
+#porta-esq { left:0; border-right:2px solid #ff2d78; }
+#porta-dir { right:0; border-left:2px solid #ff2d78; }
 
 .aberta #porta-esq { transform: translateX(-100%); }
 .aberta #porta-dir { transform: translateX(100%); }
 
-/* GATO */
+/* gato */
 #gato {
   display: none;
   position: absolute;
   bottom: 10px;
   width: 100%;
-  font-size: 30px;
+  font-size: 28px;
 }
 
-/* LOG */
+/* log */
 #log {
   height: 200px;
   overflow: auto;
+  border: 2px solid #39ff14;
+  box-shadow: 0 0 10px #39ff14;
+  padding: 10px;
   font-family: monospace;
   color: #39ff14;
 }
 
-/* PILHA */
+/* pilha */
 #pilha {
+  border: 2px solid #ff2d78;
+  box-shadow: 0 0 10px #ff2d78;
+  padding: 10px;
   display: flex;
   flex-direction: column-reverse;
   align-items: center;
@@ -89,5 +107,18 @@ body {
   width: 50px;
   padding: 5px;
   background: #ff2d78;
-  box-shadow: 0 0 10px #ff2d78;
+}
+
+/* diagrama */
+/* diagrama ocupa linha inteira */
+.machine {
+  margin-top: 20px;
+}
+#diagrama {
+  grid-column: span 3;
+  width: 100%;
+  height: 400px;
+  border: 2px solid cyan;
+  box-shadow: 0 0 15px cyan;
+  background: #0a0a1a;
 }

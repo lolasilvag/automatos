@@ -2,19 +2,18 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <title>Elevador PDA</title>
+  <title>Elevador</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<h1>ELEVADOR </h1>
+<h1>ELEVADOR</h1>
 
 <div class="layout">
 
   <!-- ELEVADOR -->
   <div class="machine">
-
     <div id="shaft">
       <div id="elevador">
         <div id="porta-esq"></div>
@@ -31,7 +30,6 @@
     </div>
 
     <div id="status"></div>
-
   </div>
 
   <!-- LOG -->
@@ -42,12 +40,18 @@
 
   <!-- PILHA -->
   <div class="panel">
-    <h3>PILHA</h3>
+    <h3> PILHA</h3>
     <div id="pilha"></div>
   </div>
-
+<!-- DIAGRAMA -->
+  <div id="diagrama"></div>
 </div>
 
+
+
+<!-- ordem IMPORTANTE -->
+<script src="https://unpkg.com/cytoscape@3.26.0/dist/cytoscape.min.js"></script>
 <script src="elevador.js"></script>
+
 </body>
 </html>
