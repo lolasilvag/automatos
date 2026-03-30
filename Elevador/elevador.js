@@ -4,11 +4,14 @@ let estado = "0_ABERTO";
 let andar = 0;
 let movendo = false;
 let pilha = [];
+let historicoPilha = [];
+let ultimoSelecionado = null;
 
 const elevador = document.getElementById("elevador");
 const status = document.getElementById("status");
 const log = document.getElementById("log");
 const pilhaUI = document.getElementById("pilha");
+const ultimoSelecionadoUI = document.getElementById("ultimo-selecionado");
 const gato = document.getElementById("gato");
 
 const pos = [0,100,200,300];
@@ -61,7 +64,16 @@ if (typeof cytoscape !== "undefined") {
 /*  PILHA  */
 function atualizarPilha(){
   pilhaUI.innerHTML="";
-  pilha.forEach(v=>{
+
+  if(historicoPilha.length === 0){
+    let d = document.createElement("div");
+    d.className = "item";
+    d.innerText = "(vazia)";
+    pilhaUI.appendChild(d);
+    return;
+  }
+
+  historicoPilha.forEach(v=>{
     let d=document.createElement("div");
     d.className="item";
     d.innerText=v;
@@ -69,8 +81,31 @@ function atualizarPilha(){
   });
 }
 
-function push(v){ pilha.push(v); atualizarPilha(); }
-function pop(){ let v=pilha.pop(); atualizarPilha(); return v; }
+function atualizarUltimo(){
+  let texto = "Último chamado: -";
+  if(ultimoSelecionado !== null){
+    texto = `Último chamado: ${ultimoSelecionado}`;
+  }
+  ultimoSelecionadoUI.innerText = texto;
+}
+
+function push(v){
+  pilha.push(v);
+  historicoPilha.push(v);
+  ultimoSelecionado = v;
+  atualizarPilha();
+  atualizarUltimo();
+}
+
+function pop(){
+  let v = pilha.pop();
+  if(v !== undefined){
+    ultimoSelecionado = v;
+  }
+  atualizarPilha();
+  atualizarUltimo();
+  return v;
+}
 
 /*  LOG  */
 function logar(o,e,d){
@@ -95,7 +130,29 @@ function logar(o,e,d){
     });
   }
 }
+function reiniciar(){
+  estado = "0_ABERTO";
+  andar = 0;
+  movendo = false;
+  pilha = [];
+  ultimoSelecionado = null;
 
+  log.innerHTML = "";
+  atualizarPilha();
+  atualizarUltimo();
+
+  elevador.classList.remove("aberta");
+  gato.style.display = "none";
+
+  if(cy){
+    cy.nodes().removeClass("ativo");
+    cy.edges().removeClass("transicao");
+    cy.getElementById(estado).addClass("ativo");
+  }
+
+  atualizar();
+  abrir();
+}
 /*  UI  */
 function atualizar(){
   elevador.style.bottom = pos[andar]+"px";
@@ -176,6 +233,7 @@ function mover(dest){
 
 /*  BOTÕES  */
 window.chamar = function(n){
+  ultimoSelecionado = n;
   push(n);
   processar();
 }

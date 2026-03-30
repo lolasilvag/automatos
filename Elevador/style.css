@@ -109,6 +109,21 @@ body {
   background: #ff2d78;
 }
 
+.item.ultimo {
+  background: #39ff14;
+  color: black;
+  width: auto;
+  font-weight: bold;
+}
+
+.ultimo-selecionado {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #ffffff;
+  border-top: 1px solid #39ff14;
+  padding-top: 8px;
+}
+
 /* diagrama */
 /* diagrama ocupa linha inteira */
 .machine {
