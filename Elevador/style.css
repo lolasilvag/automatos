@@ -103,7 +103,23 @@ body {
 .aberta #porta-esq { transform: translateX(-100%); }
 .aberta #porta-dir { transform: translateX(100%); }
 
-#gato { position: absolute; width: 100%; text-align:center; font-size: 30px; top: 18px; }
+#gato {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  top: 18px;
+}
+
+#gatoGif {
+  width: 90px;
+  height: 90px;
+  animation: floatGato 1.8s ease-in-out infinite;
+}
+
+@keyframes floatGato {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
 
 .controls { display:flex; justify-content:center; gap:10px; margin-top: 18px; flex-wrap: wrap; }
 .controls button { width: 62px; height: 62px; border-radius: 12px; border: 2px solid #f68a14; background:#171f30; color:#ffeb6a; font-size:20px; cursor:pointer; }
