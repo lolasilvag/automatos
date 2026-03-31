@@ -96,10 +96,19 @@ function reiniciar(){
   atualizar();
   abrir();
 }
+
+/*  EXPORTAÇÕES GLOBAIS  */
+window.reiniciar = reiniciar;
+window.getEstado = function() { return estado; };
 /*  UI  */
 function atualizar(){
   elevador.style.bottom = pos[andar]+"px";
   status.innerText = `Estado: ${estado}`;
+
+  // Atualizar diagrama se disponível
+  if (window.updateDiagramaHighlight) {
+    window.updateDiagramaHighlight();
+  }
 }
 
 /*  PORTA  */

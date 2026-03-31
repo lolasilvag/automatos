@@ -2,64 +2,100 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <title>Elevador</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🐱 ELEVADOR </title>
   <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<h1>ELEVADOR</h1>
+  <!-- Background stars (injected by JS) -->
+  <div class="stars-container" id="stars"></div>
 
-<div class="layout">
+  <!-- Scanline overlay -->
+  <div class="scanline"></div>
 
-  <!-- ELEVADOR -->
-  <div class="machine">
-    <div id="shaft">
-      <div id="elevador">
-        <div id="porta-esq"></div>
-        <div id="porta-dir"></div>
-        <div id="gato">🐱</div>
+  <h1 class="title">🐱 ELEVADOR</h1>
+  <p class="subtitle">AUTÔMATO COM PILHA</p>
+
+  <div class="layout">
+
+    <!--  ELEVATOR  -->
+    <div class="machine">
+      <div id="shaft">
+        <div id="elevador">
+          <div id="porta-esq"></div>
+          <div id="porta-dir"></div>
+          <div id="gato">🐱</div>
+        </div>
       </div>
+
+      <div class="controls">
+        <button onclick="chamar(0)">T</button>
+        <button onclick="chamar(1)">1</button>
+        <button onclick="chamar(2)">2</button>
+        <button onclick="chamar(3)">3</button>
+        <button onclick="reiniciar()">↺ REINICIAR</button>
+      </div>
+
+      <div class="diagram-controls">
+        <button onclick="abrirDiagrama()">📊 ABRIR DIAGRAMA</button>
+        <button onclick="exibirDOT()">🔗 GERAR DOT</button>
+      </div>
+
+      <div id="status"></div>
     </div>
 
-    <div class="controls">
-      <button onclick="chamar(0)">T</button>
-      <button onclick="chamar(1)">1</button>
-      <button onclick="chamar(2)">2</button>
-      <button onclick="chamar(3)">3</button>
-      <button onclick="abrirDiagrama()">Abrir Diagrama</button>
-      <button onclick="exibirDOT()">Gerar DOT</button>
+    <!--  AFD PANEL  -->
+    <div class="afd-panel">
+
+      <!-- Transition log -->
+      <div class="panel-box">
+        <div class="panel-title">📟 LOG DE TRANSIÇÕES  δ(q, σ) → q'</div>
+        <div class="log-box" id="log">
+          <div class="log-entry">&gt; Sistema iniciado. Estado inicial: 0_ABERTO</div>
+          <div class="log-entry">&gt; Aguardando chamada...</div>
+        </div>
+      </div>
+
+      <!-- Transition table -->
+      <div class="panel-box">
+        <div class="panel-title">📊 TABELA DE TRANSIÇÕES  δ</div>
+        <div style="overflow-x:auto;">
+          <table class="transition-table">
+            <thead>
+              <tr>
+                <th>Estado</th>
+                <th>T</th>
+                <th>1</th>
+                <th>2</th>
+                <th>3</th>
+              </tr>
+            </thead>
+            <tbody id="transBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Stack -->
+      <div class="panel-box">
+        <div class="panel-title">📚 PILHA DE CHAMADAS</div>
+        <div id="pilha"></div>
+        <div id="ultimo-selecionado" class="ultimo-selecionado">Último chamado: -</div>
+      </div>
+
     </div>
 
-    <div id="status"></div>
   </div>
 
-  <!-- LOG -->
-  <div class="panel">
-    <h3>📟 LOG</h3>
-    <div id="log"></div>
+  <!-- Diagrama (hidden by default) -->
+  <div id="diagrama" style="display:none;">
+    <button onclick="fecharDiagrama()" style="position:absolute;top:20px;right:20px;z-index:101;background:#ff2d78;color:white;border:none;padding:10px;border-radius:8px;cursor:pointer;">✕ FECHAR</button>
   </div>
 
-  <!-- PILHA -->
-  <div class="panel">
-    <h3> PILHA</h3>
-    <div id="pilha"></div>
-    <div id="ultimo-selecionado" class="ultimo-selecionado">Último chamado: -</div>
-  </div>
-
-  <!-- DOT OUTPUT -->
-  <div class="panel">
-    <h3>DOT</h3>
-    <pre id="dotOutput" class="dot-output" style="display:none; white-space: pre-wrap; text-align:left;"></pre>
-  </div>
-
-  </div>
-
-
-
-<!-- ordem IMPORTANTE -->
-<script src="https://unpkg.com/cytoscape@3.26.0/dist/cytoscape.min.js"></script>
-<script src="elevador.js"></script>
+  <!-- Scripts -->
+  <script src="elevador.js"></script>
+  <script src="https://unpkg.com/cytoscape@3.26.0/dist/cytoscape.min.js"></script>
+  <script src="diagrama.js"></script>
 
 </body>
 </html>
