@@ -7,20 +7,19 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
- 
+
+  <!-- Background stars (injected by JS) -->
   <div class="stars-container" id="stars"></div>
 
   <!-- Scanline overlay -->
   <div class="scanline"></div>
 
-  <div class="header">
-    <h1 class="title">🐱 ELEVADOR</h1>
-    <p class="subtitle">AUTÔMATO COM PILHA</p>
-  </div>
+  <h1 class="title">🐱 ELEVADOR</h1>
+  <p class="subtitle">AUTÔMATO FINITO DETERMINÍSTICO (AFD)</p>
 
   <div class="layout">
 
-    <!--  ELEVATOR  -->
+    <!-- ═══════════════ ELEVATOR  -->
     <div class="machine">
       <div id="shaft">
         <div id="elevador">
@@ -35,7 +34,7 @@
         <button onclick="chamar(1)">1</button>
         <button onclick="chamar(2)">2</button>
         <button onclick="chamar(3)">3</button>
-        <button onclick="reiniciar()">↺ </button>
+        <button onclick="reiniciar()">↺ REINICIAR</button>
       </div>
 
       <div class="diagram-controls">
@@ -44,10 +43,9 @@
       </div>
 
       <div id="status"></div>
-      <pre id="dotOutput" class="dot-output" style="display:none; white-space: pre-wrap; padding: 12px; margin-top: 12px; border: 1px solid #58c6ff; border-radius: 8px; background: rgba(105, 245, 222, 0.88); color: #d8e3f5; font-size: 0.84rem; max-height: 220px; overflow: auto;"></pre>
     </div>
 
-    <!--  AFD PANEL  -->
+    <!-- ═══════════════ AFD PANEL ═══════════════ -->
     <div class="afd-panel">
 
       <!-- Transition log -->
@@ -95,8 +93,10 @@
   </div>
 
   <!-- Scripts -->
-  <script src="elevador.js"></script>
   <script src="https://unpkg.com/cytoscape@3.26.0/dist/cytoscape.min.js"></script>
+  <script src="js/afd.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/main.js"></script>
   <script src="diagrama.js"></script>
 
 </body>
