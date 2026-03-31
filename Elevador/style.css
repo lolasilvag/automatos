@@ -105,15 +105,14 @@ body {
 
 #gato {
   position: absolute;
+  bottom: 5px;
   width: 100%;
-  text-align: center;
-  top: 18px;
+  display: none;
 }
 
-#gatoGif {
-  width: 90px;
-  height: 90px;
-  animation: floatGato 1.8s ease-in-out infinite;
+#gato img {
+  width: 40px;
+  height: auto;
 }
 
 @keyframes floatGato {
