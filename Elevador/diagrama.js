@@ -115,8 +115,8 @@ function fecharDiagrama() {
 }
 
 function exibirDOT() {
-  // Generate DOT for the automaton
-  const dot = `digraph AFD_Elevador {
+  // Se a função window.gerarDOT for definida em outro script (elevador.js), use-a.
+  const dot = (window.gerarDOT ? window.gerarDOT() : `digraph AFD_Elevador {
   rankdir=LR;
   nodesep=0.6;
   ranksep=1.2;
@@ -145,9 +145,16 @@ function exibirDOT() {
   2_ABERTO -> 2_FECHADO [label="2"];
   2_ABERTO -> 3_FECHADO [label="3"];
   3_FECHADO -> 3_ABERTO [label="3"];
-}`;
+}`);
 
-  // Open in Graphviz Online
+  // Mostra dot na aba/textarea se existir
+  const output = document.getElementById('dotOutput');
+  if (output) {
+    output.style.display = 'block';
+    output.textContent = dot;
+  }
+
+  // Tenta abrir no Graphviz Online (alguns navegadores bloqueiam popup)
   const encoded = encodeURIComponent(dot);
   const url = `https://dreampuf.github.io/GraphvizOnline/#${encoded}`;
   window.open(url, '_blank');

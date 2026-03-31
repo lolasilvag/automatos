@@ -1,33 +1,145 @@
 /* ═══════════════════════════════════════
-   ELEVADOR – AFD
-   style.css  –  fonte Arial, tamanhos grandes
+   ELEVADOR – Layout oficial
 ═══════════════════════════════════════ */
 
 :root {
-  --neon-pink:   #ff2d78;
-  --neon-cyan:   #00f5ff;
-  --neon-yellow: #ffe600;
-  --neon-green:  #39ff14;
-  --neon-orange: #ff6b00;
-  --dark-bg:     #0a0a1a;
-  --panel-bg:    #12122a;
-  --glow-pink:   0 0 10px #ff2d78, 0 0 20px #ff2d78, 0 0 40px #ff2d78;
-  --glow-cyan:   0 0 10px #00f5ff, 0 0 20px #00f5ff, 0 0 40px #00f5ff;
-  --glow-green:  0 0 10px #39ff14, 0 0 20px #39ff14;
-  --glow-yellow: 0 0 10px #ffe600, 0 0 20px #ffe600;
+  --bg: #0b1130;
+  --panel: #101a33;
+  --neon: #26ffb0;
+  --neon2: #6df5ff;
+  --neon-pink: #f90ac6;
+  --text: #d4f4ff;
+  --board: rgba(2,9,19,0.8);
 }
 
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
-  background: var(--dark-bg);
-  font-family: Arial, Helvetica, sans-serif;
+  background: linear-gradient(180deg, #06102b 0%, #090f2e 35%, #0b1235 100%);
+  font-family: 'Arial', sans-serif;
   min-height: 100vh;
+  color: var(--text);
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 24px 12px 50px;
-  overflow-x: hidden;
+  padding: 18px;
+}
+
+.scanline {
+  position: fixed; inset: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.14) 2px, rgba(0,0,0,0.14) 4px);
+  pointer-events: none;
+  z-index: 3;
+}
+
+.stars-container { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+
+@keyframes twinkle { 0%,100% { opacity: 0; } 50% { opacity: 1; } }
+
+.title {
+  font-family: 'Arial Black', Arial, sans-serif;
+  font-size: clamp(32px, 5vw, 58px);
+  color: #8cff7f;
+  text-shadow: 0 0 8px #9fef8a, 0 0 25px #4af48f;
+  letter-spacing: 3px;
+}
+
+.subtitle {
+  font-family: Arial, sans-serif;
+  font-size: clamp(16px, 2.8vw, 26px);
+  color: #67d1ff;
+  margin-top: 8px;
+  margin-bottom: 18px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.layout {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  width: min(1200px, 100%);
+  z-index: 2;
+}
+
+.machine {
+  width: 525px;
+  background: linear-gradient(180deg, #131f45, #0c1531);
+  border: 2px solid #12ffa0;
+  border-radius: 18px;
+  box-shadow: 0 0 25px rgba(0,255,170,0.25);
+  padding: 18px;
+}
+
+#shaft {
+  width: 300px;
+  height: 420px;
+  background: radial-gradient(circle at 50% 25%, rgba(0,255,170,0.18), rgba(0,0,0,0.4));
+  border: 2px solid #f40ac6;
+  margin: 0 auto 14px;
+  border-radius: 14px;
+  position: relative;
+}
+
+#elevador {
+  position: absolute;
+  width: 140px;
+  height: 95px;
+  left: calc(50% - 70px);
+  bottom: 12px;
+  background: linear-gradient(180deg, #0c182e, #101f45);
+  border: 2px solid #53c6ff;
+  border-radius: 10px;
+  transition: bottom 0.8s;
+}
+
+#porta-esq, #porta-dir {
+  position: absolute; top:0; width:50%; height:100%; background: linear-gradient(#0c1421, #081021); border: 1px solid #0e4d6d;
+}
+
+#porta-esq { left:0; }
+#porta-dir { right:0; }
+
+.aberta #porta-esq { transform: translateX(-100%); }
+.aberta #porta-dir { transform: translateX(100%); }
+
+#gato { position: absolute; width: 100%; text-align:center; font-size: 30px; top: 18px; }
+
+.controls { display:flex; justify-content:center; gap:10px; margin-top: 18px; flex-wrap: wrap; }
+.controls button { width: 62px; height: 62px; border-radius: 12px; border: 2px solid #f68a14; background:#171f30; color:#ffeb6a; font-size:20px; cursor:pointer; }
+.controls button:hover { box-shadow: 0 0 14px #f68a14; }
+
+.diagram-controls { display:flex; justify-content:center; gap:14px; margin-top:14px; }
+.diagram-controls button { border:2px solid #6cf2ff; background:transparent; color:#6cf2ff; border-radius:10px; padding:10px 16px; font-size:14px; }
+
+#status { text-align:center; margin-top: 12px; color:#90ffb0; font-size:20px; }
+
+.afd-panel { flex:1; min-width: 330px; }
+.panel-box { background: #0b1231; border: 2px solid #22ffcb; border-radius: 14px; padding:12px; margin-bottom:14px; }
+.panel-title { color:#ff4dff; margin-bottom: 10px; font-weight:bold; }
+.log-box, #pilha { background:#0a1223; color:#0cff5a; min-height:100px; border-radius:8px; padding:10px; font-family: Consolas, monospace; }
+.transition-table { width: 100%; border-collapse: collapse; background:#101c38; }
+.transition-table th, .transition-table td { border:1px solid rgba(255,255,255,0.12); padding: 10px; color:#c4dbff; text-align:center; }
+.ultimo-selecionado { text-align:center; margin-top:10px; color:#56d6ff; }
+
+@media (max-width: 1000px) { .layout { flex-direction:column; align-items:center; } .machine, .afd-panel { width:100%; max-width:600px; } }
+
+
+/* novo header */
+.title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(24px, 4vw, 40px);
+  color: #a5f3fc;
+  text-shadow: 0 0 8px rgba(165,243,252,0.9), 0 0 24px rgba(88,198,255,0.5);
+  margin-bottom: 6px;
+}
+
+.subtitle {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(12px, 2vw, 18px);
+  color: #b9d9ee;
+  margin-bottom: 22px;
+  letter-spacing: 0.08em;
 }
 
 /* ── Scanline overlay ─────────────────── */
@@ -57,17 +169,21 @@ body {
 }
 
 /* ── Page header ──────────────────────── */
+.header {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 18px;
+}
+
 .title {
   font-family: Arial Black, Arial, sans-serif;
-  font-size: clamp(18px, 3.5vw, 32px);
+  font-size: clamp(22px, 4vw, 36px);
   text-align: center;
   margin-bottom: 8px;
   letter-spacing: 3px;
-  position: relative; z-index: 2;
   animation: rainbowTitle 1.2s linear infinite;
   -webkit-animation: rainbowTitle 1.2s linear infinite;
 }
-
 @keyframes rainbowTitle {
   0%   { color:#ff0040; text-shadow: 0 0 18px #ff0040, 0 0 36px #ff0040; }
   14%  { color:#ff7700; text-shadow: 0 0 18px #ff7700, 0 0 36px #ff7700; }
@@ -104,17 +220,17 @@ body {
 }
 
 /* ═══════════════════════════════════════
-   ELEVATOR
+   ELEVADOR
 ═══════════════════════════════════════ */
 .machine {
-  background: var(--panel-bg);
-  border: 3px solid var(--neon-cyan);
-  border-radius: 18px;
-  box-shadow: var(--glow-cyan), inset 0 0 30px rgba(0,245,255,0.05);
-  width: 320px;
-  min-width: 280px;
-  padding: 18px;
-  animation: rainbowBorder 2s linear infinite;
+  background: linear-gradient(145deg, #1b2432 0%, #252f42 70%);
+  border: 2px solid #4f7eae;
+  border-radius: 16px;
+  box-shadow: var(--shadow), inset 0 0 20px rgba(70,110,150,0.35);
+  width: 330px;
+  min-width: 290px;
+  padding: 20px;
+  text-align: center;
 }
 
 @keyframes rainbowBorder {
@@ -129,24 +245,27 @@ body {
 }
 
 #shaft {
-  width: 120px;
-  height: 350px;
-  border: 2px solid var(--neon-pink);
-  margin: auto;
+  width: 150px;
+  height: 330px;
+  border: 2px solid #4f7eae;
+  margin: 0 auto;
   position: relative;
-  box-shadow: var(--glow-pink);
+  background: linear-gradient(to top, #121b2f 0%, #202f46 100%);
+  box-shadow: inset 0 0 40px rgba(31,111,172,0.25);
+  border-radius: 10px;
 }
 
 #elevador {
   position: absolute;
-  width: 100px;
-  height: 80px;
-  left: 10px;
+  width: 110px;
+  height: 85px;
+  left: 20px;
   bottom: 0;
-  background: #000;
-  border: 2px solid var(--neon-pink);
-  transition: bottom 1s;
-  box-shadow: var(--glow-pink);
+  background: linear-gradient(180deg, #20334f 0%, #152635 100%);
+  border: 2px solid #87bcff;
+  border-radius: 8px;
+  transition: bottom 1s, box-shadow 0.25s;
+  box-shadow: inset 0 0 20px rgba(135,188,255,0.3);
 }
 
 /* portas */
@@ -184,16 +303,16 @@ body {
 }
 
 .controls button {
-  background: linear-gradient(135deg, #2a1a00, #3d2800);
-  border: 2px solid var(--neon-orange);
-  border-radius: 8px;
-  width: 50px; height: 50px;
-  color: var(--neon-yellow);
-  font-family: Arial Black, Arial, sans-serif;
-  font-size: 16px;
+  background: linear-gradient(145deg, #22364e, #2f485f);
+  border: 2px solid #58c6ff;
+  border-radius: 10px;
+  width: 56px; height: 56px;
+  color: #c2e9ff;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 15px;
   cursor: pointer;
-  transition: all 0.15s;
-  box-shadow: 0 0 8px rgba(255,107,0,0.3);
+  transition: transform 0.1s, border-color 0.2s, box-shadow 0.2s;
+  box-shadow: 0 0 8px rgba(52,148,215,0.35);
   position: relative; overflow: hidden;
 }
 .controls button::before {
