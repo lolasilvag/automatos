@@ -21,14 +21,22 @@ body {
 #diagrama {
   grid-column: 1 / -1;
   width: 100%;
-  min-height: 520px;
-  max-height: 680px;
+  min-height: 680px;
+  max-height: none;
   border: 2px solid cyan;
   box-shadow: 0 0 15px cyan;
   background: #0a0a1a;
-  padding: 10px;
+  padding: 12px;
   box-sizing: border-box;
+  overflow: visible;
 }
+
+@media (max-width: 900px) {
+  #diagrama {
+    min-height: 740px;
+  }
+}
+
 
 /* elevador */
 .machine {

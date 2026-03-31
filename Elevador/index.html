@@ -27,6 +27,8 @@
       <button onclick="chamar(1)">1</button>
       <button onclick="chamar(2)">2</button>
       <button onclick="chamar(3)">3</button>
+      <button onclick="abrirDiagrama()">Abrir Diagrama</button>
+      <button onclick="exibirDOT()">Gerar DOT</button>
     </div>
 
     <div id="status"></div>
@@ -44,9 +46,14 @@
     <div id="pilha"></div>
     <div id="ultimo-selecionado" class="ultimo-selecionado">Último chamado: -</div>
   </div>
-<!-- DIAGRAMA -->
-  <div id="diagrama"></div>
-</div>
+
+  <!-- DOT OUTPUT -->
+  <div class="panel">
+    <h3>DOT</h3>
+    <pre id="dotOutput" class="dot-output" style="display:none; white-space: pre-wrap; text-align:left;"></pre>
+  </div>
+
+  </div>
 
 
 

@@ -16,49 +16,9 @@ const gato = document.getElementById("gato");
 
 const pos = [0,100,200,300];
 
-let cy; 
-
 /*  GRAFO  */
 if (typeof cytoscape !== "undefined") {
-  cy = cytoscape({
-    container: document.getElementById('diagrama'),
-
-    style: [
-      { selector:'node', style:{'background-color':'#ff2d78','label':'data(id)','color':'white'} },
-      { selector:'edge', style:{'line-color':'#00f5ff','target-arrow-color':'#00f5ff','target-arrow-shape':'triangle'} },
-      { selector:'.ativo', style:{'background-color':'#39ff14'} },
-      { selector:'.transicao', style:{'line-color':'#ff2d78','width':4} }
-    ],
-
-    elements: [
-      {data:{id:'0_ABERTO'}},{data:{id:'0_FECHADO'}},
-      {data:{id:'1_FECHADO'}},{data:{id:'1_ABERTO'}},
-      {data:{id:'2_FECHADO'}},{data:{id:'2_ABERTO'}},
-      {data:{id:'3_FECHADO'}},{data:{id:'3_ABERTO'}},
-
-      {data:{id:'e1',source:'0_ABERTO',target:'0_FECHADO'}},
-      {data:{id:'e2',source:'0_FECHADO',target:'1_FECHADO'}},
-      {data:{id:'e3',source:'1_FECHADO',target:'1_ABERTO'}},
-      {data:{id:'e4',source:'1_ABERTO',target:'1_FECHADO'}},
-      {data:{id:'e5',source:'1_FECHADO',target:'2_FECHADO'}},
-      {data:{id:'e6',source:'2_FECHADO',target:'2_ABERTO'}},
-      {data:{id:'e7',source:'2_ABERTO',target:'2_FECHADO'}},
-      {data:{id:'e8',source:'2_FECHADO',target:'3_FECHADO'}},
-      {data:{id:'e9',source:'3_FECHADO',target:'3_ABERTO'}}
-    ],
-
-    layout: {
-      name: 'breadthfirst',
-      directed: true,
-      padding: 20,
-      spacingFactor: 1.8,
-      avoidOverlap: true,
-      nodeDimensionsIncludeLabels: true,
-      animate: false,
-      fit: true,
-      boundingBox: { x1: 0, y1: 0, x2: 900, y2: 500 }
-    }
-  });
+  // Diagrama movido para diagrama.js
 }
 
 /*  PILHA  */
@@ -115,20 +75,7 @@ function logar(o,e,d){
   log.appendChild(p);
   log.scrollTop=log.scrollHeight;
 
-  //  proteção
-  if(cy){
-    cy.nodes().removeClass("ativo");
-    cy.edges().removeClass("transicao");
-
-    let node=cy.getElementById(d);
-    if(node) node.addClass("ativo");
-
-    cy.edges().forEach(edge=>{
-      if(edge.source().id()===o && edge.target().id()===d){
-        edge.addClass("transicao");
-      }
-    });
-  }
+  // Diagrama movido para diagrama.js
 }
 function reiniciar(){
   estado = "0_ABERTO";
@@ -144,11 +91,7 @@ function reiniciar(){
   elevador.classList.remove("aberta");
   gato.style.display = "none";
 
-  if(cy){
-    cy.nodes().removeClass("ativo");
-    cy.edges().removeClass("transicao");
-    cy.getElementById(estado).addClass("ativo");
-  }
+  // Diagrama movido para diagrama.js
 
   atualizar();
   abrir();
@@ -229,6 +172,37 @@ function mover(dest){
     },600);
 
   });
+}
+
+/*  CONTROLES DO DIAGRAMA */
+window.abrirDiagrama = function(){
+  window.open('diagrama.html', '_blank');
+}
+
+window.gerarDOT = function(){
+  if(!cy) return '';
+  let dot = 'digraph Elevador {\n  rankdir=LR;\n  splines=true;\n  nodesep=0.7;\n  ranksep=1.0;\n';
+
+  cy.nodes().forEach(node => {
+    const id = node.id();
+    dot += `  "${id}" [shape=circle, style=filled, fillcolor=\"#0f172a\", fontcolor=\"white\"];\n`;
+  });
+
+  cy.edges().forEach(edge => {
+    const source = edge.source().id();
+    const target = edge.target().id();
+    dot += `  "${source}" -> "${target}" [color=\"#94a3b8\"];\n`;
+  });
+
+  dot += '  start [shape=point];\n  start -> "0_ABERTO";\n';
+  dot += '}';
+  return dot;
+}
+
+window.exibirDOT = function(){
+  const output = document.getElementById('dotOutput');
+  output.style.display = 'block';
+  output.textContent = window.gerarDOT();
 }
 
 /*  BOTÕES  */

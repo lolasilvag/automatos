@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Diagrama do Elevador</title>
+  <style>
+    body {
+      background: #0a0a1a !important;
+      color: white;
+      font-family: Arial;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    h1 {
+      text-align: center;
+    }
+    #diagrama {
+      width: 100%;
+      max-width: 1200px;
+      height: 80vh;
+      border: 2px solid cyan;
+      box-shadow: 0 0 15px cyan;
+      background: #0a0a1a;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>DIAGRAMA DO ELEVADOR</h1>
+  <div id="diagrama"></div>
+
+  <!-- ordem IMPORTANTE -->
+  <script src="https://unpkg.com/cytoscape@3.26.0/dist/cytoscape.min.js"></script>
+  <script src="diagrama.js"></script>
+</body>
+</html>
